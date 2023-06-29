@@ -4,6 +4,11 @@ function M.createClass(fileName)
     local workspacePath = vim.api.nvim_call_function("getcwd", {})
     local currentBufferPath = vim.api.nvim_call_function("expand", { "%:p:h" })
 
+    -- oil.nvim changes the buffer path with a prefix, so remove
+    -- this to allow creating files from oil
+    currentBufferPath = currentBufferPath:gsub("oil://", "")
+
+
     local namespace = currentBufferPath:gsub(workspacePath, '')
     namespace = namespace:gsub("/", ".")
     namespace = namespace:gsub(fileName, "")
@@ -33,4 +38,3 @@ function M.createClass(fileName)
 end
 
 return M
-
