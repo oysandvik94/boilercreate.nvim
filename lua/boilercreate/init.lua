@@ -1,4 +1,4 @@
-local function BClass(fileName)
+function BClass(fileName)
     local workspacePath = vim.api.nvim_call_function("getcwd", {})
     local currentBufferPath = vim.api.nvim_call_function("expand", { "%:p:h" })
 
