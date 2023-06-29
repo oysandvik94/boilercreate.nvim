@@ -18,7 +18,7 @@ function M.createClass(fileName)
     end
 
     local className = fileName:gsub(".cs", "")
-    file:write(string.format("using %s;\n\n", namespace))
+    file:write(string.format("namespace %s;\n\n", namespace))
     file:write(string.format("public class %s\n{\n\n}", className))
     file:close()
 
