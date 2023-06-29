@@ -29,8 +29,3 @@ local function BClass(fileName)
     vim.api.nvim_win_set_cursor(0, { cursorLine + 1, cursorCol + 1 })
 end
 
-vim.api.nvim_create_user_command('BClass',
-    function(opts)
-        BClass(opts.args)
-    end
-    , { nargs = 1 })
