@@ -1,4 +1,6 @@
-function BClass(fileName)
+local M = {}
+
+function M.createClass(fileName)
     local workspacePath = vim.api.nvim_call_function("getcwd", {})
     local currentBufferPath = vim.api.nvim_call_function("expand", { "%:p:h" })
 
@@ -28,4 +30,6 @@ function BClass(fileName)
     local cursorLine, cursorCol = unpack(vim.api.nvim_win_get_cursor(0))
     vim.api.nvim_win_set_cursor(0, { cursorLine + 1, cursorCol + 1 })
 end
+
+return M
 
