@@ -17,8 +17,9 @@ function M.createClass(fileName)
         return
     end
 
+    local className = fileName:gsub(".cs", "")
     file:write(string.format("using %s;\n\n", namespace))
-    file:write(string.format("public class %s\n{\n\n}", fileName))
+    file:write(string.format("public class %s\n{\n\n}", className))
     file:close()
 
     vim.api.nvim_command("e " .. filePath)
