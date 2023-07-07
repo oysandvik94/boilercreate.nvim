@@ -8,15 +8,22 @@ function M.createClass()
     -- this to allow creating files from oil
     currentBufferPath = currentBufferPath:gsub("oil://", "")
 
+    local fileName = vim.api.nvim_call_function("expand", { "%:t" })
 
     local namespace = currentBufferPath:gsub(workspacePath, '')
     namespace = namespace:gsub("/", ".")
-    namespace = namespace:gsub(vim.api.nvim_buf_get_name(0), "")
+    namespace = namespace:gsub(fileName, "")
+    -- Remove trailing and leading dots
     namespace = namespace:gsub("^%.", "")
+    namespace = namespace:gsub("%.$", "")
 
-    local className = vim.api.nvim_buf_get_name(0):gsub(".cs", "")
-    vim.api.nvim_command(string.format("put ='namespace %s;\n\n'", namespace))
-    vim.api.nvim_command(string.format("put ='public class %s\n{\n\n}'", className))
+    local className = fileName:gsub(".cs", "")
+    vim.api.nvim_command(string.format("put! ='namespace %s;'", namespace))
+    vim.api.nvim_command(string.format("put =''"))
+    vim.api.nvim_command(string.format("put ='public class %s'", className))
+    vim.api.nvim_command(string.format("put ='{'"))
+    vim.api.nvim_command(string.format("put =''"))
+    vim.api.nvim_command(string.format("put ='}'"))
 
     -- Find the opening curly brace using Vim commands
     vim.api.nvim_command("/\\v[{]")
@@ -27,5 +34,3 @@ function M.createClass()
 end
 
 return M
-
-
