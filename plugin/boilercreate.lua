@@ -10,4 +10,5 @@ vim.api.nvim_create_user_command('BClass',
     function()
         boilercreate.createClass()
     end
+    , { nargs = 0 }
 )
