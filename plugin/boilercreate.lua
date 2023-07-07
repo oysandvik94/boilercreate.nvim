@@ -7,8 +7,7 @@ local boilercreate = require("boilercreate")
 
 
 vim.api.nvim_create_user_command('BClass',
-    function(opts)
-        boilercreate.createClass(opts.args)
+    function()
+        boilercreate.createClass()
     end
-    , { nargs = 1 }
 )

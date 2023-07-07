@@ -1,8 +1,8 @@
 local M = {}
 
-function M.createClass(fileName)
+function M.createClass()
     local workspacePath = vim.api.nvim_call_function("getcwd", {})
-    local currentBufferPath = vim.api.nvim_call_function("expand", { "%:p:h" })
+    local currentBufferPath = vim.api.nvim_call_function("expand", { "%:p" })
 
     -- oil.nvim changes the buffer path with a prefix, so remove
     -- this to allow creating files from oil
@@ -11,23 +11,12 @@ function M.createClass(fileName)
 
     local namespace = currentBufferPath:gsub(workspacePath, '')
     namespace = namespace:gsub("/", ".")
-    namespace = namespace:gsub(fileName, "")
+    namespace = namespace:gsub(vim.api.nvim_buf_get_name(0), "")
     namespace = namespace:gsub("^%.", "")
 
-    local filePath = currentBufferPath .. "/" .. fileName
-    local file, err = io.open(filePath, "w")
-
-    if not file then
-        print("Error opening file: " .. err)
-        return
-    end
-
-    local className = fileName:gsub(".cs", "")
-    file:write(string.format("namespace %s;\n\n", namespace))
-    file:write(string.format("public class %s\n{\n\n}", className))
-    file:close()
-
-    vim.api.nvim_command("e " .. filePath)
+    local className = vim.api.nvim_buf_get_name(0):gsub(".cs", "")
+    vim.api.nvim_command(string.format("put ='namespace %s;\n\n'", namespace))
+    vim.api.nvim_command(string.format("put ='public class %s\n{\n\n}'", className))
 
     -- Find the opening curly brace using Vim commands
     vim.api.nvim_command("/\\v[{]")
@@ -38,3 +27,5 @@ function M.createClass(fileName)
 end
 
 return M
+
+
